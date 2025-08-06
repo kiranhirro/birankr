@@ -67,8 +67,8 @@ def birank(W, normalizer='HITS',
     W = W.astype('float', copy=False)
     WT = W.T
 
-    Kd = scipy.array(W.sum(axis=1)).flatten()
-    Kp = scipy.array(W.sum(axis=0)).flatten()
+    Kd = np.array(W.sum(axis=1)).flatten()
+    Kp = np.array(W.sum(axis=0)).flatten()
     # avoid divided by zero issue
     Kd[np.where(Kd==0)] += 1
     Kp[np.where(Kp==0)] += 1
@@ -82,12 +82,12 @@ def birank(W, normalizer='HITS',
     elif normalizer == 'CoHITS':
         Sp = WT.dot(Kd_)
         Sd = W.dot(Kp_)
-    elif normalizer == 'BGRM':
+    elif normalizer == 'BGRM':  
         Sp = Kp_.dot(WT).dot(Kd_)
         Sd = Sp.T
     elif normalizer == 'BiRank':
-        Kd_bi = spa.diags(1/scipy.sqrt(Kd))
-        Kp_bi = spa.diags(1/scipy.sqrt(Kp))
+        Kd_bi = spa.diags(1/np.sqrt(Kd))
+        Kp_bi = spa.diags(1/np.sqrt(Kp))
         Sp = Kp_bi.dot(WT).dot(Kd_bi)
         Sd = Sp.T
 
